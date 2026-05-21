@@ -2,9 +2,9 @@
 
 public class Departament
 {
-    public Departament(Guid id, string name, string slug, string path, Guid parentId, bool isActive)
+    public Departament(string name, string slug, string path, Guid parentId, bool isActive)
     {
-        Id = id;
+        Id = Guid.CreateVersion7();
         Name = name;
         Slug = slug;
         Path = path;
