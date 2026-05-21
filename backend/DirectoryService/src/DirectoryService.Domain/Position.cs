@@ -1,9 +1,21 @@
 ﻿namespace DirectoryService.Domain;
 
-public class Position
+public sealed class Position
 {
+    public Position(string name, string description, bool isActive)
+    {
+        Id = Guid.CreateVersion7();
+        Name = Name.Create(name);
+        if (string.IsNullOrWhiteSpace(description))
+            throw new ArgumentException("Описание не может быть пустым.", nameof(description));
+        Description = description.Trim();
+        IsActive = isActive;
+        CreatedAt = DateTime.UtcNow;
+        UpdatedAt = CreatedAt;
+    }
+
     public Guid Id { get; private set; }
-    public string Name { get; private set; }
+    public Name Name { get; private set; }
     public string Description { get; private set; }
     public bool IsActive { get; private set; }
     public DateTime CreatedAt { get; private set; }

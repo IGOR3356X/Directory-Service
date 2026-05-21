@@ -1,10 +1,20 @@
 ﻿namespace DirectoryService.Domain;
 
-public class Location
+public sealed class Location
 {
+    public Location(string name, string city,string street, string houseNumber, bool isActive)
+    {
+        Id = Guid.CreateVersion7();
+        Name = Name.Create(name);
+        Address = Address.Create(city, street, houseNumber);
+        IsActive = isActive;
+        CreatedAt = DateTime.UtcNow;
+        UpdatedAt = CreatedAt;
+    }
+
     public Guid Id { get; private set; }
-    public string Name { get; private set; }
-    public string Address { get; private set; }
+    public Name Name { get; private set; }
+    public Address Address { get; private set; }
     public bool IsActive { get; private set; }
     public DateTime CreatedAt { get; private set; }
     public DateTime UpdatedAt { get; private set; }
