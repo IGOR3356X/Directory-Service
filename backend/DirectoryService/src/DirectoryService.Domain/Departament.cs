@@ -6,7 +6,7 @@ public class Departament
     {
         Id = id;
         Name = name;
-        Slug = slug;
+        Slug = Slug.Create(slug);
         Path = path;
         ParentId = parentId;
         IsActive = isActive;
@@ -15,7 +15,7 @@ public class Departament
 
     public Guid Id { get; private set; }
     public string Name { get; private set; }
-    public string Slug { get; private set; }
+    public Slug Slug { get; private set; }
     public string Path { get; private set; }
     public Guid? ParentId { get; private set; }
     public bool IsActive { get; private set; }
