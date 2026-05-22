@@ -15,6 +15,9 @@ dotnet_diagnostic.CA1812.severity = none
 # CA1515: рекомендуется сделать общедоступные типы внутренними
 dotnet_diagnostic.CA1515.severity = none
 
+# CA1515: В методе "Create" замените вызов "ToLowerInvariant" на "ToUpperInvariant"
+dotnet_diagnostic.CA1308.severity = none
+
 # CA1034: вложенные типы — в vertical slice один файл содержит несколько типов (Command/Handler)
 dotnet_diagnostic.CA1034.severity = none
 
