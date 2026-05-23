@@ -17,5 +17,7 @@
     <PackageVersion Include="Meziantou.Analyzer" Version="3.0.44" />
     <PackageVersion Include="AsyncFixer" Version="2.1.0" />
     <PackageVersion Include="SonarAnalyzer.CSharp" Version="10.24.0.138807" />
+    
+    <PackageVersion Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="10.0.1" />
   </ItemGroup>
 </Project>
