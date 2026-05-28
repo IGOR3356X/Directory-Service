@@ -15,22 +15,43 @@ public class DepartmentConfiguration: IEntityTypeConfiguration<Department>
         
         builder
             .Property<Name>(x=> x.Name)
-            .HasConversion(n => n.ToString(),fdt => Name.Create(fdt))
+            .HasConversion(n => n.Value,fdb => Name.Create(fdb))
             .HasMaxLength(250)
+            .HasColumnName("name")
             .IsRequired();
         
         builder
             .Property(x => x.Slug)
-            .HasConversion(x => x.ToString(), fdt => Slug.Create(fdt))
+            .HasConversion(x => x.Value, fdb => Slug.Create(fdb))
             .HasMaxLength(150)
+            .HasColumnName("slug")
             .IsRequired();
         
         builder
             .Property(x => x.Path)
-            .HasConversion(x => x.ToString(), fdt => Path.FromDb(fdt))
+            .HasConversion(x => x.Value, fdb => Path.FromDb(fdb))
             .HasMaxLength(150)
+            .HasColumnName("path")
+            .IsRequired(false);
+
+        builder
+            .Property(x => x.ParentId)
+            .HasColumnName("parent_id")
+            .IsRequired(false);
+        
+        builder
+            .Property(x => x.IsActive)
+            .HasColumnName("is_active")
             .IsRequired();
         
+        builder
+            .Property(x => x.CreatedAt)
+            .HasColumnName("created_at")
+            .IsRequired();
         
+        builder
+            .Property(x => x.UpdatedAt)
+            .HasColumnName("updated_at")
+            .IsRequired();
     }
 }

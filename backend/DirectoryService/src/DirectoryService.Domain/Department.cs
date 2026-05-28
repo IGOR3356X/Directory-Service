@@ -2,6 +2,7 @@
 
 public sealed class Department
 {
+    private Department(){}
     private Department(Name name, Slug slug, Path path, Guid? parentId, bool isActive)
     {
         Id = Guid.CreateVersion7();
@@ -37,9 +38,9 @@ public sealed class Department
     }
 
     public Guid Id { get; private set; }
-    public Name Name { get; private set; }
-    public Slug Slug { get; private set; }
-    public Path Path { get; private set; }
+    public Name Name { get; private set; } = null!;
+    public Slug Slug { get; private set; } = null!;
+    public Path Path { get; private set; } = null!;
     public Guid? ParentId { get; private set; }
     public bool IsActive { get; private set; }
     public DateTime CreatedAt { get; private set; }
