@@ -5,6 +5,8 @@ public sealed record Address
     public string Value { get; }
     private Address(string value) => Value = value;
     
+    public static Address FromDb(string value) => new(value);
+
     public static Address Create(string city, string street, string houseNumber)
     {
         if (string.IsNullOrWhiteSpace(city))
