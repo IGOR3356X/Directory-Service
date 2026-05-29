@@ -17,7 +17,7 @@ public class DepartmentConfiguration: IEntityTypeConfiguration<Department>
 
         builder
             .Property<Name>(x=> x.Name)
-            .HasConversion(n => n.Value,fdb => Name.Create(fdb))
+            .HasConversion(n => n.Value,fdb => Name.FromDb(fdb))
             .HasMaxLength(250)
             .HasColumnName("name")
             .IsRequired();

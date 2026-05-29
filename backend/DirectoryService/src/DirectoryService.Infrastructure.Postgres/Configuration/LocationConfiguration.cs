@@ -16,7 +16,7 @@ public class LocationConfiguration : IEntityTypeConfiguration<Location>
 
         builder
             .Property<Name>(l=> l.Name)
-            .HasConversion(l => l.Value,fdb => Name.Create(fdb))
+            .HasConversion(l => l.Value,fdb => Name.FromDb(fdb))
             .HasMaxLength(250)
             .HasColumnName("name")
             .IsRequired();
