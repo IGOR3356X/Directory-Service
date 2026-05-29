@@ -7,6 +7,7 @@ public sealed record Name
     
     public string Value { get; }
     private Name (string value) => Value = value;
+    public static Name FromDb(string value) => new(value);
 
     public static Name Create(string name)
     {

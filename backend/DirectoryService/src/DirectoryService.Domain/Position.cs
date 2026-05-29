@@ -2,6 +2,8 @@
 
 public sealed class Position
 {
+    private Position(){}
+
     public Position(string name, string description, bool isActive)
     {
         Id = Guid.CreateVersion7();
@@ -15,8 +17,8 @@ public sealed class Position
     }
 
     public Guid Id { get; private set; }
-    public Name Name { get; private set; }
-    public string Description { get; private set; }
+    public Name Name { get; private set; } = null!;
+    public string Description { get; private set; } = null!;
     public bool IsActive { get; private set; }
     public DateTime CreatedAt { get; private set; }
     public DateTime UpdatedAt { get; private set; }
