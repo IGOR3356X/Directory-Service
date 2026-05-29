@@ -11,7 +11,9 @@ public class PositionConfiguration: IEntityTypeConfiguration<Position>
     {
         builder.ToTable("position");
         
-        builder.HasKey(p => p.Id).HasName("id");
+        builder.HasKey(p => p.Id);
+        
+        builder.Property(x => x.Id).HasColumnName("id");
         
         builder
             .Property<Name>(x=> x.Name)
