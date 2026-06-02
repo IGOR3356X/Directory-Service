@@ -9,10 +9,10 @@ public sealed record Path
 
     public static Path FromDb (string fromDb) => new(fromDb);
 
-    public static Path CreateChild(Path parentPath, Slug slug)
+    public static Path CreateChild(string parentPath, Slug slug)
     {
         ArgumentNullException.ThrowIfNull(parentPath);
         ArgumentNullException.ThrowIfNull(slug);
-        return new Path($"{parentPath.Value}.{slug.Value}");
+        return new Path($"{parentPath}.{slug.Value}");
     }
 }
