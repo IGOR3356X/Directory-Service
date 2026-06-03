@@ -33,7 +33,7 @@ public class DepartmentController: ControllerBase
             id,
             dto.Name,
             dto.Slug,
-            Guid.Empty,
+            dto.ParentId ?? Guid.Empty,
             dto.ParentPath,
             dto.IsActive);
         return CreatedAtAction(nameof(GetById), new { departmentId = id }, entity);

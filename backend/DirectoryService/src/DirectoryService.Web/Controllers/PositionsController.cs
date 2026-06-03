@@ -36,18 +36,18 @@ public class PositionController:ControllerBase
         return CreatedAtAction(nameof(GetById), new { positionId = id }, entity);
     }
 
-    [HttpPut("{departmentId:guid}")]
+    [HttpPut("{positionId:guid}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> Update([FromRoute] Guid departmentId, [FromBody] UpdatePositionDto request, CancellationToken ct)
+    public async Task<IActionResult> Update([FromRoute] Guid positionId, [FromBody] UpdatePositionDto request, CancellationToken ct)
     {
         return NoContent();
     }
 
-    [HttpDelete("{departmentId:guid}")]
+    [HttpDelete("{positionId:guid}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> Delete([FromRoute] Guid departmentId, CancellationToken ct)
+    public async Task<IActionResult> Delete([FromRoute] Guid positionId, CancellationToken ct)
     {
         return NoContent();
     }
