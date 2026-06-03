@@ -29,7 +29,7 @@ public sealed class Department
         var departmentName = Name.Create(name);
         var departmentSlug = Slug.Create(slug);
 
-        var path = parentPath is null
+        var path = string.IsNullOrWhiteSpace(parentPath)
             ? Path.CreateRoot(departmentSlug)
             : Path.CreateChild(parentPath, departmentSlug);
 

@@ -4,35 +4,52 @@ using Microsoft.AspNetCore.Mvc;
 namespace DirectoryService.Web.Controllers;
 [ApiController]
 [Route("[controller]")]
+[Produces("application/json")]
 public class LocationController: ControllerBase
 {
     [HttpGet]
+    [ProducesResponseType(typeof(IReadOnlyList<LocationDto>), StatusCodes.Status200OK)]
     public async Task<IActionResult> Get(CancellationToken ct)
     {
-        return Ok(new { Get = "Get"});
+        return Ok(Array.Empty<LocationDto>());
     }
 
     [HttpGet("{locationId:guid}")]
-    public async Task<IActionResult> GetById(Guid locationId, CancellationToken ct)
+    [ProducesResponseType(typeof(LocationDto), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> GetById([FromRoute] Guid locationId, CancellationToken ct)
     {
-        return Ok(new { Get = "GetById"});
+        return NotFound();
     }
 
     [HttpPost]
+    [ProducesResponseType(typeof(CreatedLocationDto), StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> Create([FromBody] CreateLocationDto request,CancellationToken ct)
     {
-       var newEntity = new CreatedLocationDto(Guid.CreateVersion7(),request.Name, request.City, request.Street,request.HouseNumber, request.IsActive);
-        return CreatedAtAction(nameof(GetById),new {id =  newEntity.Id}, newEntity);
+        var id = Guid.CreateVersion7();
+        var entity = new CreatedLocationDto(
+            id,
+            request.Name,
+            request.City,
+            request.Street,
+            request.HouseNumber,
+            request.IsActive);
+        return CreatedAtAction(nameof(GetById), new { locationId = id }, entity);
     }
 
     [HttpPut("{locationId:guid}")]
-    public async Task<IActionResult> Update([FromBody] UpdateLocationDto request, CancellationToken ct)
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> Update([FromRoute] Guid locationId, [FromBody] UpdateLocationDto request, CancellationToken ct)
     {
         return NoContent();
     }
 
     [HttpDelete("{locationId:guid}")]
-    public async Task<IActionResult> Delete(Guid locationId, CancellationToken ct)
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> Delete([FromRoute] Guid locationId, CancellationToken ct)
     {
         return NoContent();
     }
