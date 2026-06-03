@@ -15,7 +15,7 @@ public sealed class Department
         UpdatedAt = CreatedAt;
     }
 
-    public static Department Create(string name, string slug, Guid? parentId, Path? parentPath, bool isActive)
+    public static Department Create(string name, string slug, Guid? parentId,  string? parentPath, bool isActive)
     {
         if (parentId is null && parentPath is not null)
             throw new ArgumentException("У корня не должно быть parentPath.", nameof(parentPath));
@@ -29,7 +29,7 @@ public sealed class Department
         var departmentName = Name.Create(name);
         var departmentSlug = Slug.Create(slug);
 
-        var path = parentPath is null
+        var path = string.IsNullOrWhiteSpace(parentPath)
             ? Path.CreateRoot(departmentSlug)
             : Path.CreateChild(parentPath, departmentSlug);
 
