@@ -7,7 +7,7 @@ public class CreateLocationValidator : AbstractValidator<CreateLocationDto>
 {
     public CreateLocationValidator()
     {
-        RuleFor(x => x.Name).NotNull().NotEmpty().WithMessage("Имя локации не может быть пустым");
+        RuleFor(x => x.Name).NotNull().NotEmpty().MinimumLength(3).MaximumLength(255).WithMessage("Имя локации не может быть пустым");
         RuleFor(x => x.City).NotNull().NotEmpty().WithMessage("Город не может быть пустым");
         RuleFor(x => x.Street).NotNull().NotEmpty().WithMessage("Улица не может быть пустой");
         RuleFor(x => x.HouseNumber).NotNull().NotEmpty().WithMessage("Дом не может быть пустым");

@@ -1,4 +1,6 @@
+using DirectoryService.Core.Location;
 using DirectoryService.Infrastructure.Postgres;
+using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Scalar.AspNetCore;
 
@@ -10,6 +12,8 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 {
     options.UseNpgsql(builder.Configuration.GetConnectionString("ConnectionString"));
 });
+builder.Services.AddValidatorsFromAssemblyContaining<CreateLocationValidator>();
+builder.Services.AddScoped<ILocationService, LocationService>();
 
 builder.Services.AddControllers();
 

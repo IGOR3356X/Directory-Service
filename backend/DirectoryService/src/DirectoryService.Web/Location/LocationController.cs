@@ -35,8 +35,15 @@ public class LocationController: ControllerBase
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> Create([FromBody] CreateLocationDto request,CancellationToken ct)
     {
-        var locationId = _locationService.Create(request, ct);
-        return CreatedAtAction(nameof(GetById), new { locationId = locationId });
+        var locationId = await _locationService.Create(request, ct);
+        var response = new CreatedLocationDto(
+            locationId,
+            request.Name,
+            request.City,
+            request.Street,
+            request.HouseNumber,
+            request.IsActive);
+        return CreatedAtAction(nameof(GetById), new { locationId = locationId },response);
     }
 
     [HttpPut("{locationId:guid}")]
