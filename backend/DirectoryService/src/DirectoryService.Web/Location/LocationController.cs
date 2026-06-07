@@ -1,4 +1,5 @@
 ﻿using DirectoryService.Contracts;
+using DirectoryService.Core.Location;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DirectoryService.Web.Controllers;
@@ -7,6 +8,13 @@ namespace DirectoryService.Web.Controllers;
 [Produces("application/json")]
 public class LocationController: ControllerBase
 {
+    private readonly ILocationService _locationService;
+
+
+    public LocationController(ILocationService locationService)
+    {
+        _locationService = locationService;
+    }
     [HttpGet]
     [ProducesResponseType(typeof(IReadOnlyList<LocationDto>), StatusCodes.Status200OK)]
     public async Task<IActionResult> Get(CancellationToken ct)
@@ -27,15 +35,8 @@ public class LocationController: ControllerBase
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> Create([FromBody] CreateLocationDto request,CancellationToken ct)
     {
-        var id = Guid.CreateVersion7();
-        var entity = new CreatedLocationDto(
-            id,
-            request.Name,
-            request.City,
-            request.Street,
-            request.HouseNumber,
-            request.IsActive);
-        return CreatedAtAction(nameof(GetById), new { locationId = id }, entity);
+        var locationId = _locationService.Create(request, ct);
+        return CreatedAtAction(nameof(GetById), new { locationId = locationId });
     }
 
     [HttpPut("{locationId:guid}")]
