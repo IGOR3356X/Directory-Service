@@ -3,7 +3,7 @@
 public sealed record Name
 {
     private const int MinLength = 3;
-    private const int MaxLength = 255;
+    private const int MaxLength = 25;
     
     public string Value { get; }
     private Name (string value) => Value = value;

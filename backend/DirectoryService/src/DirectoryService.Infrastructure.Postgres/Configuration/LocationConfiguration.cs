@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace DirectoryService.Infrastructure.Postgres.Configuration;
 
-public class LocationConfiguration : IEntityTypeConfiguration<Location>
+public class LocationConfiguration : IEntityTypeConfiguration<Domain.Location>
 {
-    public void Configure(EntityTypeBuilder<Location> builder)
+    public void Configure(EntityTypeBuilder<Domain.Location> builder)
     {
         builder.ToTable("location");
 
@@ -17,14 +17,14 @@ public class LocationConfiguration : IEntityTypeConfiguration<Location>
         builder
             .Property<Name>(l=> l.Name)
             .HasConversion(l => l.Value,fdb => Name.FromDb(fdb))
-            .HasMaxLength(250)
+            .HasMaxLength(255)
             .HasColumnName("name")
             .IsRequired();
 
         builder
             .Property(x => x.Address)
             .HasConversion(l => l.Value,frb => Address.FromDb(frb))
-            .HasMaxLength(250)
+            .HasMaxLength(255)
             .HasColumnName("address")
             .IsRequired();
         

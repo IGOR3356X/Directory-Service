@@ -25,7 +25,7 @@ public class DepartmentLocationConfiguration: IEntityTypeConfiguration<Departmen
             .OnDelete(DeleteBehavior.Cascade);
 
         builder
-            .HasOne<Location>()
+            .HasOne<Domain.Location>()
             .WithMany()
             .HasForeignKey(x => x.LocationId)
             .OnDelete(DeleteBehavior.Cascade);

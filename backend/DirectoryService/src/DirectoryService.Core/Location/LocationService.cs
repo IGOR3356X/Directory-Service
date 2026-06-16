@@ -18,7 +18,7 @@ public class LocationService : ILocationService
     {
         var validationResult = await _validator.ValidateAsync(request, ct);
         if(!validationResult.IsValid) throw new ValidationException(validationResult.Errors);
-        
+
         var isNameExists = await _locationRepository.IsNameExists(request.Name,ct);
         if (isNameExists)
         {
@@ -31,9 +31,9 @@ public class LocationService : ILocationService
             street: request.Street,
             houseNumber: request.HouseNumber,
             isActive: request.IsActive);
-        
+
         var locationId = await  _locationRepository.Create(location, ct);
-        
+
         return locationId;
     }
 }
