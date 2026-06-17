@@ -3,10 +3,11 @@ using DirectoryService.Core.Location;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DirectoryService.Web.Controllers;
+
 [ApiController]
 [Route("[controller]")]
 [Produces("application/json")]
-public class LocationController: ControllerBase
+public class LocationController : ControllerBase
 {
     private readonly ILocationService _locationService;
 
@@ -15,6 +16,7 @@ public class LocationController: ControllerBase
     {
         _locationService = locationService;
     }
+
     [HttpGet]
     [ProducesResponseType(typeof(IReadOnlyList<LocationDto>), StatusCodes.Status200OK)]
     public async Task<IActionResult> Get(CancellationToken ct)
@@ -33,7 +35,7 @@ public class LocationController: ControllerBase
     [HttpPost]
     [ProducesResponseType(typeof(CreatedLocationDto), StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> Create([FromBody] CreateLocationDto request,CancellationToken ct)
+    public async Task<IActionResult> Create([FromBody] CreateLocationDto request, CancellationToken ct)
     {
         var locationId = await _locationService.Create(request, ct);
         var response = new CreatedLocationDto(
@@ -43,13 +45,14 @@ public class LocationController: ControllerBase
             request.Street,
             request.HouseNumber,
             request.IsActive);
-        return CreatedAtAction(nameof(GetById), new { locationId = locationId },response);
+        return CreatedAtAction(nameof(GetById), new { locationId }, response);
     }
 
     [HttpPut("{locationId:guid}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> Update([FromRoute] Guid locationId, [FromBody] UpdateLocationDto request, CancellationToken ct)
+    public async Task<IActionResult> Update([FromRoute] Guid locationId, [FromBody] UpdateLocationDto request,
+        CancellationToken ct)
     {
         return NoContent();
     }

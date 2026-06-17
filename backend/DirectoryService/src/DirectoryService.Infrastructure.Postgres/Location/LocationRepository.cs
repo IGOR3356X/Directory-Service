@@ -1,10 +1,11 @@
 ﻿using DirectoryService.Core.Location;
-using DirectoryService.Domain;
+using DirectoryService.Domain.ValueObjects;
+using DirectoryService.Infrastructure.Postgres.Database;
 using Microsoft.EntityFrameworkCore;
 
 namespace DirectoryService.Infrastructure.Postgres.Location;
 
-public class LocationRepository: ILocationRepository
+public class LocationRepository : ILocationRepository
 {
     private readonly AppDbContext _context;
 
@@ -12,7 +13,7 @@ public class LocationRepository: ILocationRepository
     {
         _context = context;
     }
-    
+
     public async Task<Guid> Create(Domain.Location request, CancellationToken ct)
     {
         var entity = await _context.Locations.AddAsync(request, ct);

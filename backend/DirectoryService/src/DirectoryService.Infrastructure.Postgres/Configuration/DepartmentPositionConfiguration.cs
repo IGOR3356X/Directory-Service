@@ -30,7 +30,7 @@ public class DepartmentPositionConfiguration : IEntityTypeConfiguration<Departme
             .OnDelete(DeleteBehavior.Cascade);
 
         builder
-            .HasIndex(x => new {x.DepartmentId, x.PositionId })
+            .HasIndex(x => new { x.DepartmentId, x.PositionId })
             .IsUnique();
     }
 }

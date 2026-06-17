@@ -18,6 +18,9 @@ dotnet_diagnostic.CA1812.severity = none
 # CA1515: рекомендуется сделать общедоступные типы внутренними
 dotnet_diagnostic.CA1515.severity = none
 
+# S125: Удаляйте задукоментированный код
+dotnet_diagnostic.S125.severity = none
+
 # CA1515: В методе "Create" замените вызов "ToLowerInvariant" на "ToUpperInvariant"
 dotnet_diagnostic.CA1308.severity = none
 

@@ -1,5 +1,5 @@
 using DirectoryService.Core.Location;
-using DirectoryService.Infrastructure.Postgres;
+using DirectoryService.Infrastructure.Postgres.Database;
 using DirectoryService.Infrastructure.Postgres.Location;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
@@ -9,13 +9,28 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddOpenApi();
 
-builder.Services.AddDbContext<AppDbContext>(options =>
+builder.Logging.ClearProviders();
+builder.Logging.AddConsole();
+
+builder.Services.AddSingleton<INpgsqlConnectionFactory, NpgsqlConnectionFactory>();
+builder.Services.AddDbContext<AppDbContext>((sp, options) =>
 {
-    options.UseNpgsql(builder.Configuration.GetConnectionString("ConnectionString"));
+    var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
+                           ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+
+    options.UseNpgsql(connectionString);
+
+    if (builder.Environment.IsDevelopment())
+        options
+            .UseLoggerFactory(sp.GetRequiredService<ILoggerFactory>())
+            .EnableDetailedErrors()
+            .EnableSensitiveDataLogging();
 });
 builder.Services.AddValidatorsFromAssemblyContaining<CreateLocationValidator>();
 builder.Services.AddScoped<ILocationService, LocationService>();
-builder.Services.AddScoped<ILocationRepository, LocationRepository>();
+// builder.Services.AddScoped<ILocationRepository, LocationRepository>();
+
+builder.Services.AddScoped<ILocationRepository, LocationRepositorySql>();
 
 builder.Services.AddControllers();
 

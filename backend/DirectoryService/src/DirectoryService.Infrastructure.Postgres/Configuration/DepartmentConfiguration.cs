@@ -1,11 +1,12 @@
 ﻿using DirectoryService.Domain;
+using DirectoryService.Domain.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Path = DirectoryService.Domain.Path;
+using Path = DirectoryService.Domain.ValueObjects.Path;
 
 namespace DirectoryService.Infrastructure.Postgres.Configuration;
 
-public class DepartmentConfiguration: IEntityTypeConfiguration<Department>
+public class DepartmentConfiguration : IEntityTypeConfiguration<Department>
 {
     public void Configure(EntityTypeBuilder<Department> builder)
     {
@@ -16,8 +17,8 @@ public class DepartmentConfiguration: IEntityTypeConfiguration<Department>
         builder.Property(x => x.Id).HasColumnName("id");
 
         builder
-            .Property<Name>(x=> x.Name)
-            .HasConversion(n => n.Value,fdb => Name.FromDb(fdb))
+            .Property<Name>(x => x.Name)
+            .HasConversion(n => n.Value, fdb => Name.FromDb(fdb))
             .HasMaxLength(250)
             .HasColumnName("name")
             .IsRequired();

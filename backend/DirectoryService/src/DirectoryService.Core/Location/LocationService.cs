@@ -17,22 +17,19 @@ public class LocationService : ILocationService
     public async Task<Guid> Create(CreateLocationDto request, CancellationToken ct)
     {
         var validationResult = await _validator.ValidateAsync(request, ct);
-        if(!validationResult.IsValid) throw new ValidationException(validationResult.Errors);
+        if (!validationResult.IsValid) throw new ValidationException(validationResult.Errors);
 
-        var isNameExists = await _locationRepository.IsNameExists(request.Name,ct);
-        if (isNameExists)
-        {
-            throw new InvalidOperationException("Имя этой локации уже существует");
-        }
+        var isNameExists = await _locationRepository.IsNameExists(request.Name, ct);
+        if (isNameExists) throw new InvalidOperationException("Имя этой локации уже существует");
 
         var location = new Domain.Location(
-            name: request.Name,
-            city: request.City,
-            street: request.Street,
-            houseNumber: request.HouseNumber,
-            isActive: request.IsActive);
+            request.Name,
+            request.City,
+            request.Street,
+            request.HouseNumber,
+            request.IsActive);
 
-        var locationId = await  _locationRepository.Create(location, ct);
+        var locationId = await _locationRepository.Create(location, ct);
 
         return locationId;
     }
