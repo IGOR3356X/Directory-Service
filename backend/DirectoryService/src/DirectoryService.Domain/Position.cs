@@ -1,8 +1,12 @@
-﻿namespace DirectoryService.Domain;
+﻿using DirectoryService.Domain.ValueObjects;
+
+namespace DirectoryService.Domain;
 
 public sealed class Position
 {
-    private Position(){}
+    private Position()
+    {
+    }
 
     public Position(string name, string description, bool isActive)
     {
@@ -20,6 +24,6 @@ public sealed class Position
     public Name Name { get; private set; } = null!;
     public string Description { get; private set; } = null!;
     public bool IsActive { get; private set; }
-    public DateTime CreatedAt { get; private set; }
+    public DateTime CreatedAt { get; }
     public DateTime UpdatedAt { get; private set; }
 }

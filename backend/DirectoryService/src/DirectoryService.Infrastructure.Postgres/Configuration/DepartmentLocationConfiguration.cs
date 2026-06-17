@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace DirectoryService.Infrastructure.Postgres.Configuration;
 
-public class DepartmentLocationConfiguration: IEntityTypeConfiguration<DepartmentLocation>
+public class DepartmentLocationConfiguration : IEntityTypeConfiguration<DepartmentLocation>
 {
     public void Configure(EntityTypeBuilder<DepartmentLocation> builder)
     {
@@ -25,13 +25,13 @@ public class DepartmentLocationConfiguration: IEntityTypeConfiguration<Departmen
             .OnDelete(DeleteBehavior.Cascade);
 
         builder
-            .HasOne<Location>()
+            .HasOne<Domain.Location>()
             .WithMany()
             .HasForeignKey(x => x.LocationId)
             .OnDelete(DeleteBehavior.Cascade);
 
         builder
-            .HasIndex(x => new {x.DepartmentId, x.LocationId })
+            .HasIndex(x => new { x.DepartmentId, x.LocationId })
             .IsUnique();
     }
 }

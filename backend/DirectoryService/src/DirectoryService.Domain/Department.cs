@@ -1,8 +1,14 @@
-﻿namespace DirectoryService.Domain;
+﻿using DirectoryService.Domain.ValueObjects;
+using Path = DirectoryService.Domain.ValueObjects.Path;
+
+namespace DirectoryService.Domain;
 
 public sealed class Department
 {
-    private Department(){}
+    private Department()
+    {
+    }
+
     private Department(Name name, Slug slug, Path path, Guid? parentId, bool isActive)
     {
         Id = Guid.CreateVersion7();
@@ -15,7 +21,16 @@ public sealed class Department
         UpdatedAt = CreatedAt;
     }
 
-    public static Department Create(string name, string slug, Guid? parentId,  string? parentPath, bool isActive)
+    public Guid Id { get; private set; }
+    public Name Name { get; private set; } = null!;
+    public Slug Slug { get; private set; } = null!;
+    public Path Path { get; private set; } = null!;
+    public Guid? ParentId { get; private set; }
+    public bool IsActive { get; private set; }
+    public DateTime CreatedAt { get; }
+    public DateTime UpdatedAt { get; private set; }
+
+    public static Department Create(string name, string slug, Guid? parentId, string? parentPath, bool isActive)
     {
         if (parentId is null && parentPath is not null)
             throw new ArgumentException("У корня не должно быть parentPath.", nameof(parentPath));
@@ -25,7 +40,7 @@ public sealed class Department
 
         if (parentId == Guid.Empty)
             throw new ArgumentException("ParentId не может быть Guid.Empty.", nameof(parentId));
-        
+
         var departmentName = Name.Create(name);
         var departmentSlug = Slug.Create(slug);
 
@@ -34,15 +49,5 @@ public sealed class Department
             : Path.CreateChild(parentPath, departmentSlug);
 
         return new Department(departmentName, departmentSlug, path, parentId, isActive);
-
     }
-
-    public Guid Id { get; private set; }
-    public Name Name { get; private set; } = null!;
-    public Slug Slug { get; private set; } = null!;
-    public Path Path { get; private set; } = null!;
-    public Guid? ParentId { get; private set; }
-    public bool IsActive { get; private set; }
-    public DateTime CreatedAt { get; private set; }
-    public DateTime UpdatedAt { get; private set; }
 }

@@ -2,10 +2,11 @@
 using Microsoft.AspNetCore.Mvc;
 
 namespace DirectoryService.Web.Controllers;
+
 [ApiController]
 [Route("[controller]")]
 [Produces("application/json")]
-public class PositionController:ControllerBase
+public class PositionController : ControllerBase
 {
     [HttpGet]
     [ProducesResponseType(typeof(IReadOnlyList<PositionDto>), StatusCodes.Status200OK)]
@@ -39,7 +40,8 @@ public class PositionController:ControllerBase
     [HttpPut("{positionId:guid}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> Update([FromRoute] Guid positionId, [FromBody] UpdatePositionDto request, CancellationToken ct)
+    public async Task<IActionResult> Update([FromRoute] Guid positionId, [FromBody] UpdatePositionDto request,
+        CancellationToken ct)
     {
         return NoContent();
     }

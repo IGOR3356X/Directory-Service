@@ -1,13 +1,23 @@
-﻿namespace DirectoryService.Domain;
+﻿namespace DirectoryService.Domain.ValueObjects;
 
 public sealed record Path
 {
+    private Path(string path)
+    {
+        Value = path;
+    }
+
     public string Value { get; }
-    private Path(string path) => Value = path;
 
-    public static Path CreateRoot(Slug slug) => new(slug.Value);
+    public static Path CreateRoot(Slug slug)
+    {
+        return new Path(slug.Value);
+    }
 
-    public static Path FromDb (string fromDb) => new(fromDb);
+    public static Path FromDb(string fromDb)
+    {
+        return new Path(fromDb);
+    }
 
     public static Path CreateChild(string parentPath, Slug slug)
     {

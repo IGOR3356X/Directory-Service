@@ -6,7 +6,7 @@ namespace DirectoryService.Web.Controllers;
 [ApiController]
 [Route("[controller]")]
 [Produces("application/json")]
-public class DepartmentController: ControllerBase
+public class DepartmentController : ControllerBase
 {
     [HttpGet]
     [ProducesResponseType(typeof(IReadOnlyList<DepartmentDto>), StatusCodes.Status200OK)]
@@ -42,7 +42,8 @@ public class DepartmentController: ControllerBase
     [HttpPut("{departmentId:guid}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> Update([FromRoute] Guid departmentId, [FromBody] UpdateDepartmentDto request, CancellationToken ct)
+    public async Task<IActionResult> Update([FromRoute] Guid departmentId, [FromBody] UpdateDepartmentDto request,
+        CancellationToken ct)
     {
         return NoContent();
     }

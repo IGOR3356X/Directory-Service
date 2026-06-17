@@ -1,9 +1,14 @@
-﻿namespace DirectoryService.Domain;
+﻿using DirectoryService.Domain.ValueObjects;
+
+namespace DirectoryService.Domain;
 
 public sealed class Location
 {
-    private Location(){}
-    public Location(string name, string city,string street, string houseNumber, bool isActive)
+    private Location()
+    {
+    }
+
+    public Location(string name, string city, string street, string houseNumber, bool isActive)
     {
         Id = Guid.CreateVersion7();
         Name = Name.Create(name);
@@ -17,6 +22,6 @@ public sealed class Location
     public Name Name { get; private set; } = null!;
     public Address Address { get; private set; } = null!;
     public bool IsActive { get; private set; }
-    public DateTime CreatedAt { get; private set; }
+    public DateTime CreatedAt { get; }
     public DateTime UpdatedAt { get; private set; }
 }
