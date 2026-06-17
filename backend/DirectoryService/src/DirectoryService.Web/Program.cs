@@ -15,8 +15,8 @@ builder.Logging.AddConsole();
 builder.Services.AddSingleton<INpgsqlConnectionFactory, NpgsqlConnectionFactory>();
 builder.Services.AddDbContext<AppDbContext>((sp, options) =>
 {
-    var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
-                           ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+    var connectionString = builder.Configuration.GetConnectionString("ConnectionString")
+                           ?? throw new InvalidOperationException("Connection string 'ConnectionString' not found.");
 
     options.UseNpgsql(connectionString);
 
