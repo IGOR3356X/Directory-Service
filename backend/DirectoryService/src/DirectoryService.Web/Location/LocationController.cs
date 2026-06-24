@@ -2,7 +2,7 @@
 using DirectoryService.Core.Location;
 using Microsoft.AspNetCore.Mvc;
 
-namespace DirectoryService.Web.Controllers;
+namespace DirectoryService.Web.Location;
 
 [ApiController]
 [Route("[controller]")]
