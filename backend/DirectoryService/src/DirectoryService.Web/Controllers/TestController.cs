@@ -8,11 +8,11 @@ namespace DirectoryService.Web.Controllers;
 [Route("api/[controller]")]
 public class TestController : ControllerBase
 {
-    private readonly AppDbContext dbContext;
+    private readonly AppDbContext _dbContext;
 
     public TestController(AppDbContext dbContext)
     {
-        this.dbContext = dbContext;
+        _dbContext = dbContext;
     }
 
     [HttpGet]
@@ -30,9 +30,9 @@ public class TestController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> CreateGg()
     {
-        var dep = Department.Create("Test", "main", null, null, true);
-        await dbContext.Departments.AddAsync(dep);
-        await dbContext.SaveChangesAsync();
+        var dep = Domain.Department.Create("Test", "main", null, null, true);
+        await _dbContext.Departments.AddAsync(dep);
+        await _dbContext.SaveChangesAsync();
 
         return Ok(new { dep });
     }

@@ -1,12 +1,12 @@
 ﻿using DirectoryService.Contracts;
 using Microsoft.AspNetCore.Mvc;
 
-namespace DirectoryService.Web.Controllers;
+namespace DirectoryService.Web.Department;
 
 [ApiController]
 [Route("[controller]")]
 [Produces("application/json")]
-public class DepartmentController : ControllerBase
+public class DepartmentsController : ControllerBase
 {
     [HttpGet]
     [ProducesResponseType(typeof(IReadOnlyList<DepartmentDto>), StatusCodes.Status200OK)]
@@ -28,14 +28,6 @@ public class DepartmentController : ControllerBase
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> Create([FromBody] CreateDepartmentDto dto, CancellationToken ct)
     {
-        var id = Guid.CreateVersion7();
-        var entity = new CreatedDepartmentDto(
-            id,
-            dto.Name,
-            dto.Slug,
-            dto.ParentId ?? Guid.Empty,
-            dto.ParentPath,
-            dto.IsActive);
         return CreatedAtAction(nameof(GetById), new { departmentId = id }, entity);
     }
 
