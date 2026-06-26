@@ -1,4 +1,6 @@
 ﻿using DirectoryService.Contracts;
+using DirectoryService.Core.Department;
+using DirectoryService.Core.Location;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DirectoryService.Web.Department;
@@ -8,6 +10,12 @@ namespace DirectoryService.Web.Department;
 [Produces("application/json")]
 public class DepartmentsController : ControllerBase
 {
+    private readonly IDepartmentService _locationService;
+    public DepartmentsController(IDepartmentService locationService)
+    {
+        _locationService = locationService;
+    }
+
     [HttpGet]
     [ProducesResponseType(typeof(IReadOnlyList<DepartmentDto>), StatusCodes.Status200OK)]
     public async Task<IActionResult> Get(CancellationToken ct)
@@ -28,7 +36,16 @@ public class DepartmentsController : ControllerBase
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> Create([FromBody] CreateDepartmentDto dto, CancellationToken ct)
     {
-        return CreatedAtAction(nameof(GetById), new { departmentId = id }, entity);
+        var departmentId = await _locationService.Create(dto, ct);
+        var entity = new CreatedDepartmentDto(
+            departmentId,
+            dto.Name,
+            dto.Slug,
+            dto.ParentId,
+            dto.LocationIds,
+            dto.IsActive
+        );
+        return CreatedAtAction(nameof(GetById), new { departmentId = departmentId }, entity);
     }
 
     [HttpPut("{departmentId:guid}")]

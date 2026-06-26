@@ -6,8 +6,7 @@ public record CreateDepartmentDto(
     string Name,
     string Slug,
     Guid? ParentId,
-    IEnumerable<Guid> ParentIds,
-    string? ParentPath,
+    IEnumerable<Guid> LocationIds,
     bool IsActive);
 
 public record CreatedDepartmentDto(
@@ -15,8 +14,7 @@ public record CreatedDepartmentDto(
     string Name,
     string? Slug,
     Guid? ParentId,
-    IEnumerable<Guid> ParentIds,
-    string? ParentPath,
+    IEnumerable<Guid> LocationIds,
     bool IsActive);
 
 public record UpdateDepartmentDto(string Name, string Slug, Guid? ParentId, string? ParentPath, bool IsActive);
