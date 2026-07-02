@@ -18,7 +18,7 @@ public class DepartmentPositionConfiguration : IEntityTypeConfiguration<Departme
         builder.Property(x => x.PositionId).HasColumnName("position_id");
 
         builder
-            .HasOne<Department>()
+            .HasOne<Domain.Department>()
             .WithMany()
             .HasForeignKey(x => x.DepartmentId)
             .OnDelete(DeleteBehavior.Cascade);

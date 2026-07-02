@@ -3,7 +3,7 @@ using FluentValidation;
 
 namespace DirectoryService.Core.Department;
 
-public class CreateDepartmentValidator: AbstractValidator<CreateDepartmentDto>
+public class CreateDepartmentValidator : AbstractValidator<CreateDepartmentDto>
 {
     public CreateDepartmentValidator()
     {
@@ -13,7 +13,5 @@ public class CreateDepartmentValidator: AbstractValidator<CreateDepartmentDto>
             .MaximumLength(255).WithMessage("Имя должно быть не длиннее 255 символов");
         RuleFor(x => x.Slug)
             .NotNull().NotEmpty().WithMessage("Slug не может быть пустым");
-        RuleFor(x => x.LocationIds)
-            .NotNull().NotNull().WithMessage("Должна быть введена хотя бы 1 локация");
     }
 }

@@ -77,4 +77,9 @@ public sealed class LocationRepositorySql : ILocationRepository
                 new { name = target.Value },
                 cancellationToken: ct));
     }
+
+    public async Task<bool> IsLocationExists(IEnumerable<Guid> ids, CancellationToken ct)
+    {
+        throw new KeyNotFoundException("ЭТОТ МЕТОД НЕ РЕаЛИЗОВАН");
+    }
 }

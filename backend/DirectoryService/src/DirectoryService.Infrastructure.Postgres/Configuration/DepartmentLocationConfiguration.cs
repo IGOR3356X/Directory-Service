@@ -1,12 +1,11 @@
-﻿using DirectoryService.Domain;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace DirectoryService.Infrastructure.Postgres.Configuration;
 
-public class DepartmentLocationConfiguration : IEntityTypeConfiguration<DepartmentLocation>
+public class DepartmentLocationConfiguration : IEntityTypeConfiguration<Domain.DepartmentLocation>
 {
-    public void Configure(EntityTypeBuilder<DepartmentLocation> builder)
+    public void Configure(EntityTypeBuilder<Domain.DepartmentLocation> builder)
     {
         builder.ToTable("department_location");
 
@@ -19,7 +18,7 @@ public class DepartmentLocationConfiguration : IEntityTypeConfiguration<Departme
         builder.Property(x => x.IsPrimary).HasColumnName("is_primary");
 
         builder
-            .HasOne<Department>()
+            .HasOne<Domain.Department>()
             .WithMany()
             .HasForeignKey(x => x.DepartmentId)
             .OnDelete(DeleteBehavior.Cascade);

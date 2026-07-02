@@ -1,5 +1,4 @@
-﻿using DirectoryService.Domain;
-using DirectoryService.Infrastructure.Postgres.Database;
+﻿using DirectoryService.Infrastructure.Postgres.Database;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DirectoryService.Web.Controllers;

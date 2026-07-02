@@ -1,6 +1,5 @@
 ﻿using DirectoryService.Contracts;
 using DirectoryService.Core.Department;
-using DirectoryService.Core.Location;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DirectoryService.Web.Department;
@@ -11,6 +10,7 @@ namespace DirectoryService.Web.Department;
 public class DepartmentsController : ControllerBase
 {
     private readonly IDepartmentService _locationService;
+
     public DepartmentsController(IDepartmentService locationService)
     {
         _locationService = locationService;
@@ -45,7 +45,7 @@ public class DepartmentsController : ControllerBase
             dto.LocationIds,
             dto.IsActive
         );
-        return CreatedAtAction(nameof(GetById), new { departmentId = departmentId }, entity);
+        return CreatedAtAction(nameof(GetById), new { departmentId }, entity);
     }
 
     [HttpPut("{departmentId:guid}")]

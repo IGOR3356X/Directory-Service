@@ -26,4 +26,19 @@ public class LocationRepository : ILocationRepository
         var target = Name.Create(name);
         return await _context.Locations.AnyAsync(d => d.Name == target, ct);
     }
+
+    public async Task<bool> IsLocationExists(IEnumerable<Guid> ids, CancellationToken ct)
+    {
+        var idList = ids
+            .Distinct()
+            .ToList();
+        if (idList.Count == 0)
+            return false;
+
+        var existingCount = await _context.Locations
+            .AsNoTracking()
+            .CountAsync(x => idList.Contains(x.Id), ct);
+
+        return existingCount == idList.Count;
+    }
 }
