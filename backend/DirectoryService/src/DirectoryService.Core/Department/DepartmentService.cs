@@ -40,7 +40,11 @@ public class DepartmentService : IDepartmentService
 
         if (locationIds.Count > 0)
         {
-            await _locationRepository.IsLocationExists(locationIds, ct);
+            var isExist = await _locationRepository.IsLocationExists(locationIds, ct);
+            if (!isExist)
+            {
+                throw new KeyNotFoundException("Одна или несколько локаций не существуют");
+            }
             await _repositoryDepartmentLocationRepository.CreateDepartmentLocation(model.Id, locationIds, ct);
         }
 
