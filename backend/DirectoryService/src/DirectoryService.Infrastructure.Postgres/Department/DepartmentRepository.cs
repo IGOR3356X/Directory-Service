@@ -16,12 +16,16 @@ public class DepartmentRepository : IDepartmentRepository
     public async Task<Guid> CreateDepartment(Domain.Department department, CancellationToken ct)
     {
         await _context.Departments.AddAsync(department, ct);
-        await _context.SaveChangesAsync(ct);
         return department.Id;
     }
 
     public async Task<Domain.Department?> GetDepartmentById(Guid departmentId, CancellationToken ct)
     {
         return await _context.Departments.FirstOrDefaultAsync(x => x.Id == departmentId, ct);
+    }
+
+    public async Task Save(CancellationToken ct)
+    {
+        await _context.SaveChangesAsync(ct);
     }
 }

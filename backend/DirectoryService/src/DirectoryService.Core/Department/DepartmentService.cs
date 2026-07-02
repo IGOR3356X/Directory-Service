@@ -1,5 +1,6 @@
 ﻿using DirectoryService.Contracts;
 using DirectoryService.Core.DepartmentLocation;
+using DirectoryService.Core.Location;
 using FluentValidation;
 
 namespace DirectoryService.Core.Department;
@@ -7,16 +8,18 @@ namespace DirectoryService.Core.Department;
 public class DepartmentService : IDepartmentService
 {
     private readonly IDepartmentRepository _repositoryDepartment;
+    private readonly ILocationRepository _locationRepository;
     private readonly IDepartmentLocationRepository _repositoryDepartmentLocationRepository;
     private readonly IValidator<CreateDepartmentDto> _validator;
 
     public DepartmentService(IDepartmentRepository repositoryDepartment,
         IValidator<CreateDepartmentDto> validator,
-        IDepartmentLocationRepository repositoryDepartmentLocationRepository)
+        IDepartmentLocationRepository repositoryDepartmentLocationRepository, ILocationRepository locationRepository)
     {
         _repositoryDepartment = repositoryDepartment;
         _validator = validator;
         _repositoryDepartmentLocationRepository = repositoryDepartmentLocationRepository;
+        _locationRepository = locationRepository;
     }
 
     public async Task<Guid> Create(CreateDepartmentDto request, CancellationToken ct)
@@ -36,9 +39,13 @@ public class DepartmentService : IDepartmentService
         var locationIds = request.LocationIds?.Distinct().ToList() ?? [];
 
         if (locationIds.Count > 0)
+        {
+            await _locationRepository.IsLocationExists(locationIds, ct);
             await _repositoryDepartmentLocationRepository.CreateDepartmentLocation(model.Id, locationIds, ct);
+        }
 
-
+        await _repositoryDepartment.Save(ct);
+        
         return model.Id;
     }
 }

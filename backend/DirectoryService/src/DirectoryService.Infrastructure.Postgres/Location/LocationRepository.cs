@@ -41,4 +41,9 @@ public class LocationRepository : ILocationRepository
 
         return existingCount == idList.Count;
     }
+
+    public async Task Save(CancellationToken ct)
+    {
+        await _context.SaveChangesAsync(ct);
+    }
 }

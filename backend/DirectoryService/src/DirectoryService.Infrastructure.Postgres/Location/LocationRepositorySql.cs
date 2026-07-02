@@ -82,4 +82,9 @@ public sealed class LocationRepositorySql : ILocationRepository
     {
         throw new KeyNotFoundException("ЭТОТ МЕТОД НЕ РЕаЛИЗОВАН");
     }
+
+    public Task Save(CancellationToken ct)
+    {
+        throw new KeyNotFoundException("ЭТОТ МЕТОД НЕ РЕаЛИЗОВАН");
+    }
 }

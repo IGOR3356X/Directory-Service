@@ -29,6 +29,10 @@ public class DepartmentLocationRepository : IDepartmentLocationRepository
             .ToList();
 
         await _context.DepartmentLocations.AddRangeAsync(links, ct);
+    }
+
+    public async Task Save(CancellationToken ct)
+    {
         await _context.SaveChangesAsync(ct);
     }
 }
