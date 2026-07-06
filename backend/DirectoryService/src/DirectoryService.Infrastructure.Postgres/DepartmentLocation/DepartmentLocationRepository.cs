@@ -43,9 +43,10 @@ public class DepartmentLocationRepository : IDepartmentLocationRepository
         return await _context.DepartmentLocations.AnyAsync(x=>x.LocationId == locationId && x.DepartmentId == departmentId,ct);
     }
 
-    public async Task<int> Delete(Guid departmentId, Guid locationId, CancellationToken ct)
+    public async Task Delete(Guid departmentId, Guid locationId, CancellationToken ct)
     {
-        return await _context.DepartmentLocations.Where(x=> x.DepartmentId == departmentId && x.LocationId == locationId).ExecuteDeleteAsync(ct);
+        var entity =  await _context.DepartmentLocations.FirstAsync(x=> x.DepartmentId == departmentId && x.LocationId == locationId,ct);
+        _context.DepartmentLocations.Remove(entity);
     }
 
     public async Task Save(CancellationToken ct)

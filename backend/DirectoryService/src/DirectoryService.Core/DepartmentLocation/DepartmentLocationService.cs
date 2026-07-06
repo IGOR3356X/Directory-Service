@@ -33,7 +33,7 @@ public class DepartmentLocationService : IDepartmentLocationService
         var id = await _departmentLocationRepository.CreateWithLocation(
             Domain.DepartmentLocation.Create(departmentId, locationId, isPrimary), ct);
 
-        await _departmentRepository.Save(ct);
+        await _departmentLocationRepository.Save(ct);
         return id;
     }
 
@@ -49,5 +49,7 @@ public class DepartmentLocationService : IDepartmentLocationService
             throw new KeyNotFoundException("Связь локации и департамента не существует");
 
         await _departmentLocationRepository.Delete(departmentId, locationId, ct);
+        
+        await _departmentLocationRepository.Save(ct);
     }
 }
