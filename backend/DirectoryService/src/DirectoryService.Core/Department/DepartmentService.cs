@@ -53,17 +53,15 @@ public class DepartmentService : IDepartmentService
         return model.Id;
     }
 
-    public async Task<Guid> GetById(Guid id, CancellationToken ct)
+    public async Task<Domain.Department> GetById(Guid id, CancellationToken ct)
     {
-        var depId = await _repositoryDepartment.GetDepartmentById(id, ct);
-        return depId?.Id ?? throw new KeyNotFoundException("Департамента с таким Id не найдено");
+        var department = await _repositoryDepartment.GetDepartmentById(id, ct);
+        return department ?? throw new KeyNotFoundException("Департамента с таким Id не найдено");
     }
 
     public async Task PartUpdate(Guid id,PartUpdateDepartmentDto request, CancellationToken ct)
     {
-        var department = await _repositoryDepartment.GetDepartmentById(id, ct);
-        if (department == null)
-            throw new KeyNotFoundException("Департамента с таким Id не найдено");
+        var department = await GetById(id, ct);
         department.Update(request.Name,request.Slug,request.IsActive);
 
         await _repositoryDepartment.Save(ct);
