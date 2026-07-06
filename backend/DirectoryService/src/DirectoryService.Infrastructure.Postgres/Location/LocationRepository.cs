@@ -21,6 +21,11 @@ public class LocationRepository : ILocationRepository
         return entity.Entity.Id;
     }
 
+    public async Task<Domain.Location?> GetById(Guid requestId, CancellationToken ct)
+    {
+        return await _context.Locations.FirstOrDefaultAsync(x => x.Id == requestId, ct);
+    }
+
     public async Task<bool> IsNameExists(string name, CancellationToken ct)
     {
         var target = Name.Create(name);

@@ -8,11 +8,11 @@ public sealed class Location
     {
     }
 
-    public Location(string name, string city, string street, string houseNumber, bool isActive)
+    private Location(Name name, Address address, bool isActive)
     {
         Id = Guid.CreateVersion7();
-        Name = Name.Create(name);
-        Address = Address.Create(city, street, houseNumber);
+        Name = name;
+        Address = address;
         IsActive = isActive;
         CreatedAt = DateTime.UtcNow;
         UpdatedAt = CreatedAt;
@@ -24,4 +24,17 @@ public sealed class Location
     public bool IsActive { get; private set; }
     public DateTime CreatedAt { get; }
     public DateTime UpdatedAt { get; private set; }
+
+    public static Location Create(string name, string city, string street, string houseNumber, bool isActive)
+    {
+        return new Location(Name.Create(name),Address.Create(city, street, houseNumber), isActive);
+    }
+
+    public void Update(string name, string city, string street, string houseNumber, bool isActive)
+    {
+        Name = Name.Create(name);
+        Address = Address.Create(city, street, houseNumber);
+        IsActive = isActive;
+        UpdatedAt = DateTime.UtcNow;
+    }
 }

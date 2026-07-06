@@ -57,6 +57,16 @@ public class LocationController : ControllerBase
         return NoContent();
     }
 
+    [HttpPatch("{locationId:guid}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> PartUpdate([FromRoute] Guid locationId, [FromBody] PartUpdateLocationDto request,
+        CancellationToken ct)
+    {
+        await _locationService.PartUpdate(locationId, request, ct);
+        return NoContent();
+    }
+
     [HttpDelete("{locationId:guid}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]

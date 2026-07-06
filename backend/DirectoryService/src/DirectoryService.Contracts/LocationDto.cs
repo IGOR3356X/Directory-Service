@@ -7,3 +7,4 @@ public record CreateLocationDto(string Name, string City, string Street, string 
 public record CreatedLocationDto(Guid Id, string Name, string City, string Street, string HouseNumber, bool IsActive);
 
 public record UpdateLocationDto(string Name, string City, string Street, string HouseNumber, bool IsActive);
+public record PartUpdateLocationDto(string Name, string City, string Street, string HouseNumber, bool IsActive);

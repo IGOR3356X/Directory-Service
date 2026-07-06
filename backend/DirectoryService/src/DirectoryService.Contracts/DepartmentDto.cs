@@ -18,3 +18,4 @@ public record CreatedDepartmentDto(
     bool IsActive);
 
 public record UpdateDepartmentDto(string Name, string Slug, Guid? ParentId, string? ParentPath, bool IsActive);
+public record PartUpdateDepartmentDto(string Name, string Slug, bool IsActive);

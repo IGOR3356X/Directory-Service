@@ -50,4 +50,12 @@ public sealed class Department
 
         return new Department(departmentName, departmentSlug, path, parentId, isActive);
     }
+
+    public void Update(string name, string slug,bool isActive)
+    {
+        Name = Name.Create(name);
+        Slug = Slug.Create(slug);
+        IsActive = isActive;
+        UpdatedAt = DateTime.UtcNow;
+    }
 }

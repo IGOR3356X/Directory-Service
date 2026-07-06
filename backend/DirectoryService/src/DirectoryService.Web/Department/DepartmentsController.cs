@@ -9,11 +9,11 @@ namespace DirectoryService.Web.Department;
 [Produces("application/json")]
 public class DepartmentsController : ControllerBase
 {
-    private readonly IDepartmentService _locationService;
+    private readonly IDepartmentService _departmentService;
 
-    public DepartmentsController(IDepartmentService locationService)
+    public DepartmentsController(IDepartmentService departmentService)
     {
-        _locationService = locationService;
+        _departmentService = departmentService;
     }
 
     [HttpGet]
@@ -36,7 +36,7 @@ public class DepartmentsController : ControllerBase
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> Create([FromBody] CreateDepartmentDto dto, CancellationToken ct)
     {
-        var departmentId = await _locationService.Create(dto, ct);
+        var departmentId = await _departmentService.Create(dto, ct);
         var entity = new CreatedDepartmentDto(
             departmentId,
             dto.Name,
@@ -51,9 +51,20 @@ public class DepartmentsController : ControllerBase
     [HttpPut("{departmentId:guid}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> Update([FromRoute] Guid departmentId, [FromBody] UpdateDepartmentDto request,
+    public async Task<IActionResult> FullUpdate([FromRoute] Guid departmentId, [FromBody] UpdateDepartmentDto request,
         CancellationToken ct)
     {
+        return NoContent();
+    }
+
+    [HttpPatch("{departmentId:guid}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> SemiUpdate([FromRoute] Guid departmentId,
+        [FromBody] PartUpdateDepartmentDto request,
+        CancellationToken ct)
+    {
+        await _departmentService.PartUpdate(departmentId, request, ct);
         return NoContent();
     }
 

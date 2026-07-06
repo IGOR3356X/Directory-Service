@@ -55,7 +55,7 @@ public sealed class LocationRepositorySql : ILocationRepository
             throw;
         }
     }
-
+    
     public async Task<bool> IsNameExists(string name, CancellationToken ct)
     {
         var target = Name.Create(name);
@@ -84,6 +84,11 @@ public sealed class LocationRepositorySql : ILocationRepository
     }
 
     public Task Save(CancellationToken ct)
+    {
+        throw new KeyNotFoundException("ЭТОТ МЕТОД НЕ РЕаЛИЗОВАН");
+    }
+    
+    public Task<Domain.Location?> GetById(Guid requestId, CancellationToken ct)
     {
         throw new KeyNotFoundException("ЭТОТ МЕТОД НЕ РЕаЛИЗОВАН");
     }
