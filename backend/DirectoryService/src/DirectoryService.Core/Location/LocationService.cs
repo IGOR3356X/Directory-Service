@@ -21,15 +21,13 @@ public class LocationService : ILocationService
 
         var isNameExists = await _locationRepository.IsNameExists(request.Name, ct);
         if (isNameExists) throw new InvalidOperationException("Имя этой локации уже существует");
-
-        var location = new Domain.Location(
-            request.Name,
+        
+        var locationId = await _locationRepository.Create(
+            Domain.Location.Create(request.Name,
             request.City,
             request.Street,
             request.HouseNumber,
-            request.IsActive);
-
-        var locationId = await _locationRepository.Create(location, ct);
+            request.IsActive), ct);
 
         await _locationRepository.Save(ct);
 

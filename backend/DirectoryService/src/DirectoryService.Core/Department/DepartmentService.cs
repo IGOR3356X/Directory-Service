@@ -49,7 +49,7 @@ public class DepartmentService : IDepartmentService
         }
 
         await _repositoryDepartment.Save(ct);
-        
+
         return model.Id;
     }
 }
