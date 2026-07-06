@@ -1,14 +1,13 @@
-﻿using DirectoryService.Domain;
-using DirectoryService.Domain.ValueObjects;
+﻿using DirectoryService.Domain.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Path = DirectoryService.Domain.ValueObjects.Path;
 
 namespace DirectoryService.Infrastructure.Postgres.Configuration;
 
-public class DepartmentConfiguration : IEntityTypeConfiguration<Department>
+public class DepartmentConfiguration : IEntityTypeConfiguration<Domain.Department>
 {
-    public void Configure(EntityTypeBuilder<Department> builder)
+    public void Configure(EntityTypeBuilder<Domain.Department> builder)
     {
         builder.ToTable("department");
 

@@ -1,5 +1,9 @@
+using DirectoryService.Core.Department;
+using DirectoryService.Core.DepartmentLocation;
 using DirectoryService.Core.Location;
 using DirectoryService.Infrastructure.Postgres.Database;
+using DirectoryService.Infrastructure.Postgres.Department;
+using DirectoryService.Infrastructure.Postgres.DepartmentLocation;
 using DirectoryService.Infrastructure.Postgres.Location;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
@@ -27,10 +31,13 @@ builder.Services.AddDbContext<AppDbContext>((sp, options) =>
             .EnableSensitiveDataLogging();
 });
 builder.Services.AddValidatorsFromAssemblyContaining<CreateLocationValidator>();
+builder.Services.AddValidatorsFromAssemblyContaining<CreateDepartmentValidator>();
 builder.Services.AddScoped<ILocationService, LocationService>();
-// builder.Services.AddScoped<ILocationRepository, LocationRepository>();
-
-builder.Services.AddScoped<ILocationRepository, LocationRepositorySql>();
+builder.Services.AddScoped<ILocationRepository, LocationRepository>();
+builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
+builder.Services.AddScoped<IDepartmentService, DepartmentService>();
+builder.Services.AddScoped<IDepartmentLocationRepository, DepartmentLocationRepository>();
+// builder.Services.AddScoped<ILocationRepository, LocationRepositorySql>();
 
 builder.Services.AddControllers();
 

@@ -1,13 +1,21 @@
 ﻿using DirectoryService.Contracts;
+using DirectoryService.Core.Department;
 using Microsoft.AspNetCore.Mvc;
 
-namespace DirectoryService.Web.Controllers;
+namespace DirectoryService.Web.Department;
 
 [ApiController]
 [Route("[controller]")]
 [Produces("application/json")]
-public class DepartmentController : ControllerBase
+public class DepartmentsController : ControllerBase
 {
+    private readonly IDepartmentService _locationService;
+
+    public DepartmentsController(IDepartmentService locationService)
+    {
+        _locationService = locationService;
+    }
+
     [HttpGet]
     [ProducesResponseType(typeof(IReadOnlyList<DepartmentDto>), StatusCodes.Status200OK)]
     public async Task<IActionResult> Get(CancellationToken ct)
@@ -28,15 +36,16 @@ public class DepartmentController : ControllerBase
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> Create([FromBody] CreateDepartmentDto dto, CancellationToken ct)
     {
-        var id = Guid.CreateVersion7();
+        var departmentId = await _locationService.Create(dto, ct);
         var entity = new CreatedDepartmentDto(
-            id,
+            departmentId,
             dto.Name,
             dto.Slug,
-            dto.ParentId ?? Guid.Empty,
-            dto.ParentPath,
-            dto.IsActive);
-        return CreatedAtAction(nameof(GetById), new { departmentId = id }, entity);
+            dto.ParentId,
+            dto.LocationIds,
+            dto.IsActive
+        );
+        return CreatedAtAction(nameof(GetById), new { departmentId }, entity);
     }
 
     [HttpPut("{departmentId:guid}")]

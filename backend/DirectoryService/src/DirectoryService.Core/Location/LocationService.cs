@@ -31,6 +31,8 @@ public class LocationService : ILocationService
 
         var locationId = await _locationRepository.Create(location, ct);
 
+        await _locationRepository.Save(ct);
+
         return locationId;
     }
 }
