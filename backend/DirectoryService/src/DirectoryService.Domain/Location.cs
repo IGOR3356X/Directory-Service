@@ -27,8 +27,14 @@ public sealed class Location
 
     public static Location Create(string name, string city, string street, string houseNumber, bool isActive)
     {
-        return new Location(Name.Create(name),ValueObjects.Address.Create(city, street, houseNumber), isActive);
+        return new Location(Name.Create(name),Address.Create(city, street, houseNumber), isActive);
     }
 
-    public static void Update()
+    public void Update(string name, string city, string street, string houseNumber, bool isActive)
+    {
+        Name = Name.Create(name);
+        Address = Address.Create(city, street, houseNumber);
+        IsActive = isActive;
+        UpdatedAt = DateTime.UtcNow;
+    }
 }

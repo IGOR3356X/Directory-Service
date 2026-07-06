@@ -36,6 +36,7 @@ builder.Services.AddScoped<ILocationService, LocationService>();
 builder.Services.AddScoped<ILocationRepository, LocationRepository>();
 builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
 builder.Services.AddScoped<IDepartmentService, DepartmentService>();
+builder.Services.AddScoped<IDepartmentLocationService, DepartmentLocationService>();
 builder.Services.AddScoped<IDepartmentLocationRepository, DepartmentLocationRepository>();
 // builder.Services.AddScoped<ILocationRepository, LocationRepositorySql>();
 

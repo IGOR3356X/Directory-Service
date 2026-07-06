@@ -1,5 +1,6 @@
 ﻿using DirectoryService.Core.DepartmentLocation;
 using DirectoryService.Infrastructure.Postgres.Database;
+using Microsoft.EntityFrameworkCore;
 
 namespace DirectoryService.Infrastructure.Postgres.DepartmentLocation;
 
@@ -12,7 +13,7 @@ public class DepartmentLocationRepository : IDepartmentLocationRepository
         _context = context;
     }
 
-    public async Task CreateDepartmentLocation(Guid departmentId, IEnumerable<Guid> departmentLocationIds,
+    public async Task CreateWithLocations(Guid departmentId, IEnumerable<Guid> departmentLocationIds,
         CancellationToken ct)
     {
         var distinctIds = departmentLocationIds
@@ -29,6 +30,22 @@ public class DepartmentLocationRepository : IDepartmentLocationRepository
             .ToList();
 
         await _context.DepartmentLocations.AddRangeAsync(links, ct);
+    }
+
+    public async Task<Guid> CreateWithLocation(Domain.DepartmentLocation entity, CancellationToken ct)
+    {
+        await _context.DepartmentLocations.AddAsync(entity, ct);
+        return entity.Id;
+    }
+
+    public async Task<bool> IsLinkExist(Guid departmentId, Guid locationId, CancellationToken ct)
+    {
+        return await _context.DepartmentLocations.AnyAsync(x=>x.LocationId == locationId && x.DepartmentId == departmentId,ct);
+    }
+
+    public async Task<int> Delete(Guid departmentId, Guid locationId, CancellationToken ct)
+    {
+        return await _context.DepartmentLocations.Where(x=> x.DepartmentId == departmentId && x.LocationId == locationId).ExecuteDeleteAsync(ct);
     }
 
     public async Task Save(CancellationToken ct)

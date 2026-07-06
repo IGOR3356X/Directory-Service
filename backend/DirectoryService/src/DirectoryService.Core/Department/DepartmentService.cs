@@ -9,16 +9,16 @@ public class DepartmentService : IDepartmentService
 {
     private readonly IDepartmentRepository _repositoryDepartment;
     private readonly ILocationRepository _locationRepository;
-    private readonly IDepartmentLocationRepository _repositoryDepartmentLocationRepository;
+    private readonly IDepartmentLocationRepository _departmentLocationRepository;
     private readonly IValidator<CreateDepartmentDto> _validator;
 
     public DepartmentService(IDepartmentRepository repositoryDepartment,
         IValidator<CreateDepartmentDto> validator,
-        IDepartmentLocationRepository repositoryDepartmentLocationRepository, ILocationRepository locationRepository)
+        IDepartmentLocationRepository departmentLocationRepository, ILocationRepository locationRepository)
     {
         _repositoryDepartment = repositoryDepartment;
         _validator = validator;
-        _repositoryDepartmentLocationRepository = repositoryDepartmentLocationRepository;
+        _departmentLocationRepository = departmentLocationRepository;
         _locationRepository = locationRepository;
     }
 
@@ -45,11 +45,27 @@ public class DepartmentService : IDepartmentService
             {
                 throw new KeyNotFoundException("Одна или несколько локаций не существуют");
             }
-            await _repositoryDepartmentLocationRepository.CreateDepartmentLocation(model.Id, locationIds, ct);
+            await _departmentLocationRepository.CreateWithLocations(model.Id, locationIds, ct);
         }
 
         await _repositoryDepartment.Save(ct);
 
         return model.Id;
+    }
+
+    public async Task<Guid> GetById(Guid id, CancellationToken ct)
+    {
+        var depId = await _repositoryDepartment.GetDepartmentById(id, ct);
+        return depId?.Id ?? throw new KeyNotFoundException("Департамента с таким Id не найдено");
+    }
+
+    public async Task PartUpdate(Guid id,PartUpdateDepartmentDto request, CancellationToken ct)
+    {
+        var department = await _repositoryDepartment.GetDepartmentById(id, ct);
+        if (department == null)
+            throw new KeyNotFoundException("Департамента с таким Id не найдено");
+        department.Update(request.Name,request.Slug,request.IsActive);
+
+        await _repositoryDepartment.Save(ct);
     }
 }
