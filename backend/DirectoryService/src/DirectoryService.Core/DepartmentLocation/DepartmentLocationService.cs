@@ -49,7 +49,7 @@ public class DepartmentLocationService : IDepartmentLocationService
             throw new KeyNotFoundException("Связь локации и департамента не существует");
 
         await _departmentLocationRepository.Delete(departmentId, locationId, ct);
-        
+
         await _departmentLocationRepository.Save(ct);
     }
 }

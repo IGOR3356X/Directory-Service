@@ -4,7 +4,12 @@
         <ProjectReference Include="..\DirectoryService.Contracts\DirectoryService.Contracts.csproj"/>
         <PackageReference Include="FluentValidation.DependencyInjectionExtensions"/>
         <ProjectReference Include="..\DirectoryService.Domain\DirectoryService.Domain.csproj"/>
+        <ProjectReference Include="..\DirectoryService.Shared\DirectoryService.Shared.csproj" />
 
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Department\Exceptions\" />
     </ItemGroup>
 
 </Project>
