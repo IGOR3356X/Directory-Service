@@ -8,8 +8,4 @@
 
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Department\Exceptions\" />
-    </ItemGroup>
-
 </Project>
