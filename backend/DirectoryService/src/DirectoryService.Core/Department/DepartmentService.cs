@@ -1,9 +1,10 @@
 ﻿using System.Runtime.InteropServices.JavaScript;
 using DirectoryService.Contracts;
+using DirectoryService.Core.BaseExceptions;
 using DirectoryService.Core.Department.Exceptions;
 using DirectoryService.Core.DepartmentLocation;
 using DirectoryService.Core.Location;
-using DirectoryService.Shared;
+using DirectoryService.SharedProj;
 using FluentValidation;
 
 namespace DirectoryService.Core.Department;
@@ -28,7 +29,7 @@ public class DepartmentService : IDepartmentService
     public async Task<Guid> Create(CreateDepartmentDto request, CancellationToken ct)
     {
         var validationResult = await _validator.ValidateAsync(request, ct);
-        if (!validationResult.IsValid) throw new DepartmentValidationException();
+        if (!validationResult.IsValid) throw new DepartmentValidationException(validationResult.ToValidationErrors());
 
         var parent = request.ParentId.HasValue
             ? await _repositoryDepartment.GetDepartmentById(request.ParentId.Value, ct)

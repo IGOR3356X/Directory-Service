@@ -1,4 +1,4 @@
-﻿namespace DirectoryService.Shared;
+﻿namespace DirectoryService.SharedProj;
 
 public record class Errors
 {
