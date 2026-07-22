@@ -60,7 +60,7 @@ public class DepartmentService : IDepartmentService
     public async Task<Domain.Department> GetById(Guid id, CancellationToken ct)
     {
         var department = await _repositoryDepartment.GetDepartmentById(id, ct);
-        return department ?? throw new KeyNotFoundException("Департамента с таким Id не найдено");
+        return department ?? throw new DepartmentNotFoundException();
     }
 
     public async Task PartUpdate(Guid id,PartUpdateDepartmentDto request, CancellationToken ct)
