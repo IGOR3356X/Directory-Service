@@ -1,7 +1,7 @@
 ﻿using DirectoryService.SharedProj;
 using FluentValidation.Results;
 
-namespace DirectoryService.Core.BaseExceptions;
+namespace DirectoryService.Core.Extensions;
 
 public static class ValidationResultExtension
 {

@@ -1,5 +1,8 @@
 using DirectoryService.Core.Department;
+using DirectoryService.Core.Department.Exceptions;
+using DirectoryService.Core.DepartmentLocation.Exceptions;
 using DirectoryService.Core.Location;
+using DirectoryService.Core.Location.Exceptions;
 
 namespace DirectoryService.Core.DepartmentLocation;
 
@@ -22,13 +25,13 @@ public class DepartmentLocationService : IDepartmentLocationService
     public async Task<Guid> CreateLink(Guid departmentId, Guid locationId, bool isPrimary, CancellationToken ct)
     {
         if (await _departmentRepository.GetDepartmentById(departmentId, ct) == null)
-            throw new KeyNotFoundException("Департамента с таким Id не существует");
+            throw new DepartmentNotFoundException();
 
         if (await _locationRepository.GetById(locationId, ct) == null)
-            throw new KeyNotFoundException("Локации с таким Id не существует");
+            throw new LocationNotFoundException();
 
         if (await _departmentLocationRepository.IsLinkExist(departmentId, locationId, ct))
-            throw new KeyNotFoundException("Связь локации и департамента уже существует");
+            throw new DepartmentLocationConflictException();
 
         var id = await _departmentLocationRepository.CreateWithLocation(
             Domain.DepartmentLocation.Create(departmentId, locationId, isPrimary), ct);
@@ -40,13 +43,13 @@ public class DepartmentLocationService : IDepartmentLocationService
     public async Task DeleteLink(Guid departmentId, Guid locationId, CancellationToken ct)
     {
         if (await _departmentRepository.GetDepartmentById(departmentId, ct) == null)
-            throw new KeyNotFoundException("Департамента с таким Id не существует");
+            throw new DepartmentNotFoundException();
 
         if (await _locationRepository.GetById(locationId, ct) == null)
-            throw new KeyNotFoundException("Локации с таким Id не существует");
+            throw new LocationNotFoundException();
 
         if (!await _departmentLocationRepository.IsLinkExist(departmentId, locationId, ct))
-            throw new KeyNotFoundException("Связь локации и департамента не существует");
+            throw new DepartmentLocationNotFoundException();
 
         await _departmentLocationRepository.Delete(departmentId, locationId, ct);
 

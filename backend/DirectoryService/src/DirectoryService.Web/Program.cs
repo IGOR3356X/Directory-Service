@@ -5,6 +5,7 @@ using DirectoryService.Infrastructure.Postgres.Database;
 using DirectoryService.Infrastructure.Postgres.Department;
 using DirectoryService.Infrastructure.Postgres.DepartmentLocation;
 using DirectoryService.Infrastructure.Postgres.Location;
+using DirectoryService.Web;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Scalar.AspNetCore;
@@ -45,6 +46,8 @@ builder.Services.AddControllers();
 builder.Services.AddHealthChecks();
 
 var app = builder.Build();
+
+app.UseMiddleware<ExceptionMiddleware>();
 
 app.MapGet("/", () => "Hello World!");
 

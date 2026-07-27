@@ -3,7 +3,9 @@ using DirectoryService.Contracts;
 using DirectoryService.Core.BaseExceptions;
 using DirectoryService.Core.Department.Exceptions;
 using DirectoryService.Core.DepartmentLocation;
+using DirectoryService.Core.Extensions;
 using DirectoryService.Core.Location;
+using DirectoryService.Core.Location.Exceptions;
 using DirectoryService.SharedProj;
 using FluentValidation;
 
@@ -47,7 +49,7 @@ public class DepartmentService : IDepartmentService
             var isExist = await _locationRepository.IsLocationExists(locationIds, ct);
             if (!isExist)
             {
-                throw new KeyNotFoundException("Одна или несколько локаций не существуют");
+                throw new LocationNotFoundException();
             }
             await _departmentLocationRepository.CreateWithLocations(model.Id, locationIds, ct);
         }

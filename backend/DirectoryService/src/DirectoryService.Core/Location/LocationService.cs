@@ -1,4 +1,6 @@
 ﻿using DirectoryService.Contracts;
+using DirectoryService.Core.Extensions;
+using DirectoryService.Core.Location.Exceptions;
 using FluentValidation;
 
 namespace DirectoryService.Core.Location;
@@ -17,10 +19,10 @@ public class LocationService : ILocationService
     public async Task<Guid> Create(CreateLocationDto request, CancellationToken ct)
     {
         var validationResult = await _validator.ValidateAsync(request, ct);
-        if (!validationResult.IsValid) throw new ValidationException(validationResult.Errors);
+        if (!validationResult.IsValid) throw new LocationValidationException(validationResult.ToValidationErrors());
 
         var isNameExists = await _locationRepository.IsNameExists(request.Name, ct);
-        if (isNameExists) throw new InvalidOperationException("Имя этой локации уже существует");
+        if (isNameExists) throw new LocationConflictException();
 
         var locationId = await _locationRepository.Create(
             Domain.Location.Create(request.Name,
@@ -36,7 +38,7 @@ public class LocationService : ILocationService
 
     public async Task PartUpdate(Guid id, PartUpdateLocationDto request, CancellationToken ct)
     {
-        var location = await _locationRepository.GetById(id, ct) ?? throw new KeyNotFoundException("Локации с таким id не существует");
+        var location = await _locationRepository.GetById(id, ct) ?? throw new LocationNotFoundException();
 
         location.Update(request.Name, request.City, request.Street, request.HouseNumber, request.IsActive);
 

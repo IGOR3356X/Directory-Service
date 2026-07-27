@@ -1,12 +1,17 @@
-﻿namespace DirectoryService.SharedProj;
+﻿using System.ComponentModel;
+using System.Text.Json.Serialization;
+
+namespace DirectoryService.SharedProj;
 
 public record class Errors
 {
     public string Code { get;}
     public string Message { get;}
+    [JsonConverter(typeof(JsonStringEnumConverter))]
     public ErrorType Type { get;}
     public string? InvalidError { get;}
-
+    
+    [JsonConstructor]
     private Errors(string code, string message, ErrorType type, string? invalidError = null)
     {
         Code = code;
@@ -30,8 +35,12 @@ public record class Errors
 
 public enum ErrorType
 {
+    [Description("Ошибка валидации")]
     Validation,
+    [Description("Ошибка объект не найден")]
     NotFound,
+    [Description("Фаталочка")]
     Failure,
+    [Description("Конфликт")]
     Conflict,
 }
