@@ -4,7 +4,11 @@
         <ProjectReference Include="..\DirectoryService.Contracts\DirectoryService.Contracts.csproj"/>
         <PackageReference Include="FluentValidation.DependencyInjectionExtensions"/>
         <ProjectReference Include="..\DirectoryService.Domain\DirectoryService.Domain.csproj"/>
+        <ProjectReference Include="..\DirectoryService.SharedProj\DirectoryService.SharedProj.csproj" />
 
     </ItemGroup>
-
+    
+    <ItemGroup>
+        <PackageReference Include="Newtonsoft.Json"/>
+    </ItemGroup>
 </Project>

@@ -1,6 +1,12 @@
-﻿using DirectoryService.Contracts;
+﻿using System.Runtime.InteropServices.JavaScript;
+using DirectoryService.Contracts;
+using DirectoryService.Core.BaseExceptions;
+using DirectoryService.Core.Department.Exceptions;
 using DirectoryService.Core.DepartmentLocation;
+using DirectoryService.Core.Extensions;
 using DirectoryService.Core.Location;
+using DirectoryService.Core.Location.Exceptions;
+using DirectoryService.SharedProj;
 using FluentValidation;
 
 namespace DirectoryService.Core.Department;
@@ -25,7 +31,7 @@ public class DepartmentService : IDepartmentService
     public async Task<Guid> Create(CreateDepartmentDto request, CancellationToken ct)
     {
         var validationResult = await _validator.ValidateAsync(request, ct);
-        if (!validationResult.IsValid) throw new ValidationException(validationResult.Errors);
+        if (!validationResult.IsValid) throw new DepartmentValidationException(validationResult.ToValidationErrors());
 
         var parent = request.ParentId.HasValue
             ? await _repositoryDepartment.GetDepartmentById(request.ParentId.Value, ct)
@@ -43,7 +49,7 @@ public class DepartmentService : IDepartmentService
             var isExist = await _locationRepository.IsLocationExists(locationIds, ct);
             if (!isExist)
             {
-                throw new KeyNotFoundException("Одна или несколько локаций не существуют");
+                throw new LocationNotFoundException();
             }
             await _departmentLocationRepository.CreateWithLocations(model.Id, locationIds, ct);
         }
@@ -56,7 +62,7 @@ public class DepartmentService : IDepartmentService
     public async Task<Domain.Department> GetById(Guid id, CancellationToken ct)
     {
         var department = await _repositoryDepartment.GetDepartmentById(id, ct);
-        return department ?? throw new KeyNotFoundException("Департамента с таким Id не найдено");
+        return department ?? throw new DepartmentNotFoundException();
     }
 
     public async Task PartUpdate(Guid id,PartUpdateDepartmentDto request, CancellationToken ct)

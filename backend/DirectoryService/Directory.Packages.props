@@ -12,6 +12,7 @@
     
     <!-- Валидация -->
     <PackageVersion Include="FluentValidation.DependencyInjectionExtensions" Version="12.1.1"/>
+    <PackageVersion Include="Newtonsoft.Json" Version="13.0.4"/>
     
     <!-- HTTP / OpenAPI -->
     <PackageVersion Include="Microsoft.AspNetCore.OpenApi" Version="10.0.9" />
