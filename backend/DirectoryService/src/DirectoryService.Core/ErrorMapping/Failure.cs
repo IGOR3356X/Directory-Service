@@ -4,10 +4,6 @@ namespace DirectoryService.Core.ErrorMapping;
 
 public static partial class Failure
 {
-    static Failure()
-    {
-
-    }
     public static class DepartmentErrors
     {
         public static Errors NotFoundError() => Errors.NotFound(null,"Департамента с таким Id не найдено");

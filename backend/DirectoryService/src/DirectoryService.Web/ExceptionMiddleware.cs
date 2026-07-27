@@ -35,7 +35,7 @@ public class ExceptionMiddleware
         var (code, errors) = exception switch
         {
             BadRequestException =>
-                (StatusCodes.Status500InternalServerError, JsonSerializer.Deserialize<Errors[]>(exception.Message)),
+                (StatusCodes.Status400BadRequest, JsonSerializer.Deserialize<Errors[]>(exception.Message)),
             ConflictException =>
                 (StatusCodes.Status409Conflict, JsonSerializer.Deserialize<Errors[]>(exception.Message)),
             NotFoundException =>
@@ -43,7 +43,7 @@ public class ExceptionMiddleware
             ValidationException =>
                 (StatusCodes.Status400BadRequest, JsonSerializer.Deserialize<Errors[]>(exception.Message)),
 
-            _ => (StatusCodes.Status500InternalServerError, [Errors.Failure(null,"Somthing went wrong")])
+            _ => (StatusCodes.Status500InternalServerError, [Errors.Failure(null,"Что-то пошло не так")])
         };
 
         httpContext.Response.ContentType = "application/json";

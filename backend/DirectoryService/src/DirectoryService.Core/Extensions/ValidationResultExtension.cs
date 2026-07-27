@@ -8,7 +8,7 @@ public static class ValidationResultExtension
     public static Errors[] ToValidationErrors(this ValidationResult validationResult)
     {
         Errors[] failures = validationResult.Errors
-            .Select(x=> Errors.Validation(x.ErrorCode,x.ErrorMessage,x.PropertyName)).ToArray();
+            .Select(x=> Errors.Validation("value.validation.error",x.ErrorMessage,x.PropertyName)).ToArray();
         return failures;
     }
 }
