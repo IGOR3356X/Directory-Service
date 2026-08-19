@@ -3,23 +3,25 @@ using System.Text.Json.Serialization;
 
 namespace DirectoryService.SharedProj;
 
-public record class Errors
+public record Errors
 {
     public string Code { get;}
     public string Message { get;}
     [JsonConverter(typeof(JsonStringEnumConverter))]
     public ErrorType Type { get;}
-    public string? InvalidError { get;}
+    public string? InvalidField { get;}
     
     [JsonConstructor]
-    private Errors(string code, string message, ErrorType type, string? invalidError = null)
+    private Errors(string code, string message, ErrorType type, string? invalidField = null)
     {
         Code = code;
         Message = message;
         Type = type;
-        InvalidError = invalidError;
+        InvalidField = invalidField;
     }
-
+    
+    public static Errors None() => 
+        new("","",ErrorType.None, null);
     public static Errors NotFound(string? code,string message)
         => new(code ?? "record.not.found", message,ErrorType.NotFound);
 
@@ -43,4 +45,6 @@ public enum ErrorType
     Failure,
     [Description("Конфликт")]
     Conflict,
+    [Description("Нет ошибки")]
+    None
 }
